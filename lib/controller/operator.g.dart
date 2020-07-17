@@ -42,6 +42,17 @@ mixin _$Operator on _Operator, Store {
   final _$_OperatorActionController = ActionController(name: '_Operator');
 
   @override
+  void clear() {
+    final _$actionInfo =
+        _$_OperatorActionController.startAction(name: '_Operator.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_OperatorActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void ajoutChiffre(String x) {
     final _$actionInfo =
         _$_OperatorActionController.startAction(name: '_Operator.ajoutChiffre');

@@ -1,18 +1,64 @@
+import 'package:calculmobx/controller/operator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Clavier extends StatelessWidget {
-  Function appuieTouche;
-  Function appuieOperator;
-  Function appuieEgal;
-  Function appuieClear;
+  var operateur = "";
+  var nombre1 = 0;
+  var nombre2 = 0;
 
-  Clavier(
-      {this.appuieTouche,
-      this.appuieOperator,
-      this.appuieEgal,
-      this.appuieClear});
   @override
   Widget build(BuildContext context) {
+    final Operator controller2 = Provider.of<Operator>(context);
+
+    void appuieTouche(int chiffre) {
+      controller2.ajoutChiffre(chiffre.toString());
+      print(controller2.affiche);
+    }
+
+    void appuieOperator(String operateur) {
+      this.operateur = operateur;
+      if (controller2.affiche.isNotEmpty) {
+        nombre1 = int.parse(controller2.affiche);
+      }
+      controller2.affiche = "";
+    }
+
+    void appuieEgal() {
+      if (controller2.affiche.isNotEmpty) {
+        nombre2 = int.parse(controller2.affiche);
+      }
+      switch (operateur) {
+        case "+":
+          {
+            controller2.additionner(nombre1, nombre2);
+          }
+          break;
+        case "-":
+          {
+            controller2.soutraire(nombre1, nombre2);
+          }
+          break;
+        case "*":
+          {
+            controller2.multiplier(nombre1, nombre2);
+          }
+          break;
+        case "/":
+          {
+            controller2.diviser(nombre1, nombre2);
+          }
+          break;
+      }
+      controller2.affiche = controller2.resultat.toString();
+    }
+
+    void clear() {
+      nombre1 = 0;
+      nombre2 = 0;
+      controller2.clear();
+    }
+
     return Container(
       height: 400,
       margin: EdgeInsets.only(top: 100),
@@ -140,7 +186,7 @@ class Clavier extends StatelessWidget {
           Container(
             child: RaisedButton(
               child: Text("clear"),
-              onPressed: appuieClear,
+              onPressed: clear,
             ),
           ),
         ],
